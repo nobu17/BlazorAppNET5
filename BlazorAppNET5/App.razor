@@ -1,0 +1,37 @@
+@using System.Reflection
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.WebAssembly.Services
+@inject LazyAssemblyLoader LazyAssemblyLoader
+
+<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="@lazyLoadedAssemblies" OnNavigateAsync="@OnNavigateAsync">
+    <Navigating>
+        <div>
+            <p>Loading modules...</p>
+        </div>
+    </Navigating>
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+
+    const string ModuleName = "LazyLoadModule.dll";
+    List<Assembly> lazyLoadedAssemblies = new List<Assembly>();
+
+    async Task OnNavigateAsync(NavigationContext args)
+    {
+        if (args.Path == "lazy" && !lazyLoadedAssemblies.Any(x => x.GetName().Name + ".dll" == ModuleName))
+        {
+            await Task.Delay(3000);
+            var assemblies = await LazyAssemblyLoader.LoadAssembliesAsync(new string[] { ModuleName });
+
+            lazyLoadedAssemblies.AddRange(assemblies);
+        }
+    }
+}

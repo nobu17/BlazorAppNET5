@@ -1,0 +1,13 @@
+﻿@page "/lazy"
+<h3>LazyLoadPage</h3>
+
+<p>LazySum:@result</p>
+
+@code {
+
+    string result;
+    protected override void OnInitialized()
+    {
+        result = LazySum.Sum(1,2).ToString();
+    }
+}

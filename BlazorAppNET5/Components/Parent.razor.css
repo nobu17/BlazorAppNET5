@@ -1,0 +1,7 @@
+﻿h1 {
+    color: red;
+}
+
+::deep h2 {
+    color: blue;
+}

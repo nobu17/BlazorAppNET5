@@ -1,0 +1,44 @@
+﻿<h3>RadioButtons</h3>
+
+<EditForm Model="@InputData">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <InputRadioGroup @bind-Value="InputData.SelectedCountry">
+            Country:
+            <br>
+            @foreach (var country in Enum.GetValues(typeof(Country)))
+            {
+                <InputRadio Value="country" />
+                @country
+            }
+        </InputRadioGroup>
+    </p>
+    @if (InputData.SelectedCountry != null)
+    {
+        <p>@InputData.SelectedCountry.ToString() is selected</p>
+    }
+    else
+    {
+        <p>Not Selected Country</p>
+    }
+    <p>
+        <InputRadioGroup @bind-Value="InputData.SelectedFoodType" Name="food">
+            <InputRadioGroup @bind-Value="InputData.SelectedDrinkType" Name="drink">
+                <InputRadio Value="FoodType.Rice" Name="food" /> Rice
+                <InputRadio Value="FoodType.Bread" Name="food" /> Bread
+                <InputRadio Value="FoodType.Meat" Name="food" /> Meat
+                <InputRadio Value="FoodType.Vegetable" Name="food" /> Vegetable
+                <InputRadio Value="DrinkType.Tea" Name="drink" /> Tea
+                <InputRadio Value="DrinkType.Coffee" Name="drink" /> Coffee
+                <InputRadio Value="DrinkType.Water" Name="drink" /> Water
+            </InputRadioGroup>
+        </InputRadioGroup>
+    </p>
+    <button type="submit">Submit</button>
+</EditForm>
+
+
+@code {
+    public InputData InputData = new InputData();
+}

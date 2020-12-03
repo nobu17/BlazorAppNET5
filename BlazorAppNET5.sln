@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppNET5", "BlazorAppNET5\BlazorAppNET5.csproj", "{1003C3F4-3036-4D99-9EDD-4D3083CB4372}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazyLoadModule", "LazyLoadModule\LazyLoadModule.csproj", "{01A9D587-7AD6-4919-9557-E840398FE979}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1003C3F4-3036-4D99-9EDD-4D3083CB4372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1003C3F4-3036-4D99-9EDD-4D3083CB4372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1003C3F4-3036-4D99-9EDD-4D3083CB4372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1003C3F4-3036-4D99-9EDD-4D3083CB4372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A9D587-7AD6-4919-9557-E840398FE979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A9D587-7AD6-4919-9557-E840398FE979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A9D587-7AD6-4919-9557-E840398FE979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A9D587-7AD6-4919-9557-E840398FE979}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {105EF2CA-6827-46A9-BCF0-5EF7E57E2662}
+	EndGlobalSection
+EndGlobal

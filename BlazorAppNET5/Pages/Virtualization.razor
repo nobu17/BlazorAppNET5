@@ -1,0 +1,121 @@
+﻿@page "/virtualization"
+
+<h3>Virtualization</h3>
+<EditForm Model="@Data">
+    <div>
+        <InputCheckbox @bind-Value="Data.IsDisplayVirtualization" />
+        <label>Virtualization</label>
+    </div>
+    <div>
+        <InputCheckbox @bind-Value="Data.IsDisplayNonVirtualization" />
+        <label>NonVirtualization</label>
+    </div>
+    <div>
+        <InputCheckbox @bind-Value="Data.IsAsyncDisplayVirtualization" />
+        <label>Virtualization(LoadAsync)</label>
+    </div>
+</EditForm>
+
+@if (Data.IsDisplayVirtualization)
+{
+    <p>Virtualization</p>
+    <Virtualize Context="Person" Items="@People">
+        <p>
+            name: @Person.Name , age: @Person.Age
+        </p>
+    </Virtualize>
+}
+@if (Data.IsDisplayNonVirtualization)
+{
+    <p>Non Virtualization</p>
+    @foreach (var person in People)
+    {
+        <p>
+            name: @person.Name , age: @person.Age
+        </p>
+    }
+}
+@if (Data.IsAsyncDisplayVirtualization)
+{
+    <p>Virtualization(LoadAsync)</p>
+    <Virtualize Context="Person" ItemsProvider="@LoadPeople">
+        <ItemContent>
+            <p>
+                name: @Person.Name , age: @Person.Age
+            </p>
+        </ItemContent>
+        <Placeholder>
+            <p>
+                Loading...
+            </p>
+        </Placeholder>
+    </Virtualize>
+}
+
+@code {
+
+    public InputData Data = new InputData();
+
+    public List<Person> People = Enumerable.Range(1, 30000).Select(x => new Person(x.ToString(), x % 60)).ToList();
+
+    public class InputData
+    {
+        public bool IsDisplayVirtualization { get; set; } = false;
+        public bool IsDisplayNonVirtualization { get; set; } = false;
+        public bool IsAsyncDisplayVirtualization { get; set; } = false;
+    }
+
+    private DummyPersonService _service = new DummyPersonService();
+    private int? totalCount;
+    private async ValueTask<ItemsProviderResult<Person>> LoadPeople(ItemsProviderRequest request)
+    {
+        if (totalCount == null)
+        {
+            totalCount = await _service.GetTotalCountAsync();
+        }
+
+        var people = await _service.GetPeopleAsync(request.StartIndex, request.Count);
+        return new ItemsProviderResult<Person>(people, totalCount ??= 0);
+    }
+
+    public class Person
+    {
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+
+        public string Name { get; }
+
+        public int Age { get; }
+    }
+
+    public class DummyPersonService
+    {
+        private List<Person> _people;
+        public DummyPersonService()
+        {
+            _people = Enumerable.Range(1, 30000).Select(x => new Person(x.ToString(), x % 60)).ToList();
+        }
+
+        public async Task<int> GetTotalCountAsync()
+        {
+            await Task.Delay(100);
+            return _people.Count();
+            //return Task.FromResult(_people.Count());
+        }
+
+        public async Task<IEnumerable<Person>> GetPeopleAsync(int startIndex, int count)
+        {
+            await Task.Delay(1000);
+            if (_people.Count() > startIndex)
+            {
+                return _people.Skip(startIndex).Take(count);
+                //return Task.FromResult(_people.Skip(startIndex).Take(count));
+            }
+            return Enumerable.Empty<Person>();
+            //return Task.FromResult(Enumerable.Empty<Person>());
+        }
+    }
+}

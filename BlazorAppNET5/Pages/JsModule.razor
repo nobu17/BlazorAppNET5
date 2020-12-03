@@ -1,0 +1,24 @@
+﻿@page "/jsmodule"
+@inject IJSRuntime js;
+
+<h3>JsModule</h3>
+
+<input type="text" @bind="@message" />
+<br />
+<button @onclick="ShowAlertAsync">Load JS</button>
+
+@code {
+
+    string message = "hello";
+
+    async void ShowAlertAsync()
+    {
+        var module = await js.InvokeAsync<IJSObjectReference>(
+        "import", "./js/displayAlert.js");
+
+        await module.InvokeVoidAsync("displayAlert", message);
+    }
+
+
+
+}
